@@ -65,29 +65,11 @@ All tables are used. Many-row tables are aggregated to one row per `encounter_id
 
 ## Experiment log
 
-Full detail lives in `experiments/results.csv`. Update both this table and the CSV after every run.
+Add a row after every Kaggle submission. Full detail (including CV scores) lives in `experiments/results.csv`.
 
-| ID | Model | Key params | CV AUC | Public LB | Notes |
-|---|---|---|---|---|---|
-| v1 | LightGBM, 3-seed avg | lr 0.03, 15 leaves, 290 rounds | 0.7494 | **0.74326** | first submission |
-| - | Logistic Regression | C = 0.05 | 0.7477 | - | CV only |
-| - | Random Forest | 100 trees, depth 12 | 0.7325 | - | CV only, lightweight settings |
-| - | Decision Tree | depth 6 | 0.6988 | - | CV only |
-| - | Gaussian Naive Bayes | default | 0.6968 | - | CV only |
-| - | KNN | k = 75 | 0.6844 | - | CV only |
-| - | AdaBoost | depth-3, 60 est | - | - | CV run did not finish |
-
-## Ideas queue
-
-- [ ] Blend LightGBM + logistic regression (+ CatBoost)
-- [ ] LACE / Charlson-style comorbidity scores from ICD codes
-- [ ] Use all diagnosis codes, not just the top 60
-- [ ] Out-of-fold target encoding for `hospital_id` and `attending_id`
-- [ ] Keep outlier-lab values as flag features instead of dropping to missing
-- [ ] Random-search tuning for LightGBM; try CatBoost
-- [ ] Feature pruning
-- [ ] Finish AdaBoost CV
-- [ ] Final notebook, `final_columns.csv`, and report
+| ID | Model | Key params | Public LB |
+|---|---|---|---|
+| v1 | LightGBM, 3-seed avg | lr 0.03, 15 leaves, 290 rounds | **0.74326** |
 
 ## Rules followed
 

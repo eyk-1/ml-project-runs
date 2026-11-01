@@ -40,6 +40,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v2 | LightGBM regularised + v2 features + target encoding | lr 0.04, 4 leaves, 700 rounds | **0.74589** |
 | v3 | CatBoost, 2-seed avg, native categoricals | depth 5, lr 0.06, 445 rounds | **0.74337** |
 | v4 | Rank blend: 0.8 LightGBM (v2) + 0.2 Logistic Regression | LR C = 0.02 | **0.74682** |
+| v5 | XGBoost, 3-seed avg, target encoding | eta 0.04, depth 3, 363 rounds | **0.74397** |
 
 
 ## Rules followed

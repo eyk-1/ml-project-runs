@@ -4,39 +4,6 @@ Intro to Machine Learning, Fall 2026 (IBA Karachi). Predict whether a patient is
 
 Competition: https://www.kaggle.com/t/83081d62f0604355948c9313230de90d
 
-## Repo layout
-
-```
-.
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── data/                    # raw Kaggle CSVs go here (not committed)
-├── artifacts/               # generated feature table X.pkl (not committed)
-├── src/
-│   ├── features.py          # raw tables -> one row per encounter (cleaning + aggregation)
-│   ├── compare_models.py    # 5-fold CV of NB, LogReg, KNN, Tree, RF, AdaBoost
-│   ├── cv_lgbm.py           # 5-fold CV of LightGBM + feature importance
-│   └── train_final.py       # fit on full train, write a submission file
-├── experiments/
-│   └── results.csv          # one row per experiment (the score tracker)
-└── submissions/             # every file sent to Kaggle, named vN_model.csv
-```
-
-## How to run
-
-1. Download the competition data and unzip the CSVs into `data/`.
-2. `pip install -r requirements.txt`
-3. Run from the repo root:
-
-```
-python src/features.py        # builds artifacts/X.pkl (109,787 rows x 300 cols)
-python src/cv_lgbm.py         # CV score
-python src/train_final.py     # writes submissions/latest.csv
-```
-
-Rename `latest.csv` to `vN_<model>.csv` before the next run so nothing gets overwritten.
-
 ## Data pipeline (summary)
 
 All tables are used. Many-row tables are aggregated to one row per `encounter_id`.
@@ -70,6 +37,8 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | ID | Model | Key params | Public LB |
 |---|---|---|---|
 | v1 | LightGBM, 3-seed avg | lr 0.03, 15 leaves, 290 rounds | **0.74326** |
+| v2 | LightGBM regularised + v2 features + target encoding | lr 0.04, 4 leaves, 700 rounds | **0.74589** |
+
 
 ## Rules followed
 

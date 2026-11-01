@@ -6,3 +6,5 @@ v1,2026-11-01,LightGBM (3-seed avg),"lr=0.03 leaves=15 min_child=50 ff=0.5 l2=5 
 -,2026-11-01,Gaussian Naive Bayes,default,features v1,0.6968,,,CV only
 -,2026-11-01,KNN,"k=75 distance-weighted",features v1,0.6844,,,CV only
 -,2026-11-01,AdaBoost,"depth-3 stumps 60 est lr=0.1",features v1,,,,CV run did not finish; rerun
+v2,2026-11-01,LightGBM (3-seed avg) regularised,"leaves=4 min_child=400 ff=0.2 l2=60 lr=0.04 rounds=700 + OOF target encoding (hospital attending dx_primary3 proc_first)",features v2 (318 cols + 4 TE),0.7521,0.74589,submissions/v2_lgbm_reg_te.csv,added Charlson/LACE/ratios/outlier flags; features alone gave ~+0.0003 so gain is from regularisation
+v3,2026-11-01,CatBoost (2-seed avg),"depth=5 lr=0.06 l2=10 rsm=0.3 rounds=445 native categoricals",features v2 (318 cols),0.7476,,submissions/v3_catboost.csv,blend with v2 LightGBM on OOF only gave 0.7523 (rank corr 0.957) so little diversity

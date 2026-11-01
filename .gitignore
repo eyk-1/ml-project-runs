@@ -1,0 +1,7 @@
+data/*
+!data/.gitkeep
+artifacts/
+__pycache__/
+*.pkl
+.ipynb_checkpoints/
+.DS_Store

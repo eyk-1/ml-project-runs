@@ -1,0 +1,8 @@
+experiment_id,date,model,key_params,features,cv_auc,public_lb_auc,submission_file,notes
+v1,2026-11-01,LightGBM (3-seed avg),"lr=0.03 leaves=15 min_child=50 ff=0.5 l2=5 rounds=290",features v1 (300 cols),0.7494,0.74326,submissions/v1_lgbm_3seed.csv,first submission; attending_id dropped (high cardinality)
+-,2026-11-01,Logistic Regression,"C=0.05",features v1,0.7477,,,CV only
+-,2026-11-01,Random Forest,"100 trees depth=12 leaf=30 maxfeat=0.15",features v1,0.7325,,,CV only; lighter settings (1 CPU)
+-,2026-11-01,Decision Tree,"depth=6 leaf=100",features v1,0.6988,,,CV only
+-,2026-11-01,Gaussian Naive Bayes,default,features v1,0.6968,,,CV only
+-,2026-11-01,KNN,"k=75 distance-weighted",features v1,0.6844,,,CV only
+-,2026-11-01,AdaBoost,"depth-3 stumps 60 est lr=0.1",features v1,,,,CV run did not finish; rerun

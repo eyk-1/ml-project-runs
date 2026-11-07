@@ -41,6 +41,31 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v3 | CatBoost, 2-seed avg, native categoricals | depth 5, lr 0.06, 445 rounds | **0.74337** |
 | v4 | Rank blend: 0.8 LightGBM (v2) + 0.2 Logistic Regression | LR C = 0.02 | **0.74682** |
 | v5 | XGBoost, 3-seed avg, target encoding | eta 0.04, depth 3, 363 rounds | **0.74397** |
+| v6 | Rank blend: 0.4 LightGBM (v2 features) + 0.4 LightGBM (v3 features) + 0.2 Logistic Regression | weights from OOF grid search | **0.74685** |
+| v7 | Kaggle notebook: rank blend 0.4 LightGBM (v2 features, 3 leaves) + 0.4 LightGBM (v3 features, 3 leaves) + 0.2 Logistic Regression | settings chosen by CV inside the notebook | **0.74679** |
+
+## Ran but not submitted (CV only)
+
+5-fold CV ROC-AUC on the same folds as every submitted model. For reference, the submitted LightGBM (v2) scores 0.7521.
+
+| ID | Model | Key params | CV AUC |
+|---|---|---|---|
+| - | LightGBM, v3 features (463 cols) | same as v2 | 0.7518 |
+| - | LightGBM, in-fold feature selection | top 150 columns by gain (top 100 + extra_trees also 0.7514; top 100 0.7510; top 60 0.7504) | 0.7514 |
+| - | HistGradientBoosting | lr 0.03, depth 3, 8 leaves, min leaf 200, L2 10, 30% of columns | 0.7491 |
+| - | Logistic Regression (C = 0.02, used in v4) | standard scaler, median imputer | 0.7469 |
+| - | Logistic Regression, elastic-net | C = 0.012, l1 ratio 0.2 | 0.7466 |
+| - | Linear SVM (calibrated) | C = 0.0066 | 0.7442 |
+| - | Linear Discriminant Analysis | shrinkage 0.5 | 0.7385 |
+| - | ExtraTrees | 400 trees, depth 14, min leaf 40, 20% of columns | 0.7359 |
+| - | Random Forest | 500 trees, depth 16, min leaf 40, 20% of columns, 80% row sampling | 0.7344 |
+| - | MLP | layers 128-64-32, L2 0.1, lr 0.003 | 0.7336 |
+| - | Gaussian Naive Bayes (tuned) | quantile transform, top 80 columns, smoothing 1e-6 (untuned 0.6968) | 0.7212 |
+| - | KNN (tuned) | standard scaler, top 80-200 columns, k = 800, distance weighted (untuned 0.6844) | 0.7211 |
+| - | Decision Tree (tuned) | depth 5, min leaf 200 (untuned 0.6988) | 0.6958 |
+| - | Blend: 0.7 LightGBM + 0.1 CatBoost + 0.2 Logistic Regression | rank average, weights from OOF grid | 0.7526 |
+| - | Blend: greedy selection over all 11 models | mostly LightGBM, some logistic regression, CatBoost, linear SVM | 0.7527 |
+| - | Stacking: logistic regression on 11 models' predictions | out-of-fold stacking | 0.7518 |
 
 
 ## Rules followed

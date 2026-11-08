@@ -45,6 +45,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v7 | Kaggle notebook: rank blend 0.4 LightGBM (v2 features, 3 leaves) + 0.4 LightGBM (v3 features, 3 leaves) + 0.2 Logistic Regression | settings chosen by CV inside the notebook | **0.74679** |
 | v8 | Rank blend: LightGBM v2 + v3 + spline logistic regression + EBM | weights 0.3 / 0.3 / 0.2 / 0.2 | **0.74695** |
 | v9 | Rank blend: corrected LightGBM + corrected EBM (clean fold-local pipeline, features v4) | weights 0.65 / 0.35; CV 0.7526 | **0.74755** |
+| v10 | Rank blend: corrected LightGBM (5-seed final fit) + corrected EBM | weights 0.65 / 0.35; CV 0.7526 | **0.74752** |
 
 ## Ran but not submitted (CV only)
 
@@ -82,6 +83,9 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | Corrected feature-block ablation | each table dropped once; best was dropping procedures (0.7516), all below full v4 baseline | 0.7516 |
 | - | XGBoost DART (corrected features) | 500 rounds, depth 3, dropout 0.05; same folds and fold-local encodings | 0.7468 |
 | - | LightGBM, corrected features (backup for v9) | v2 parameters; TE M = 50; fold-local counts and category levels | 0.7521 |
+| - | LightGBM, corrected features + 16 row-level features | prior-utilization trends and ratios, age/LOS/LACE/Charlson interactions, follow-up-days buckets; v2 parameters; TE M = 50 | 0.7514 |
+| - | LightGBM, row-level features + fold-local hospital case-mix | adds 20 columns: hospital means of 10 variables (LOS, Charlson, LACE, age, prior visits...) and each stay's difference from them, computed on the training fold only | 0.7514 |
+| - | LightGBM, learning rate 0.02 | v2 parameters otherwise; single seed; 5-fold early stopping (903-1373 rounds) | 0.7516 |
 
 
 

@@ -51,14 +51,12 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 
 ## Ran but not submitted (CV only)
 
-5-fold CV ROC-AUC on the same folds as every submitted model. For reference, the submitted LightGBM (v2) scores 0.7521.
+5-fold CV ROC-AUC on the shared folds. This table contains experiments that were not submitted.
 
 | ID | Model | Key params | CV AUC |
 |---|---|---|---|
-| - | LightGBM, v3 features (463 cols) | same as v2 | 0.7518 |
 | - | LightGBM, in-fold feature selection | top 150 columns by gain (top 100 + extra_trees also 0.7514; top 100 0.7510; top 60 0.7504) | 0.7514 |
 | - | HistGradientBoosting | lr 0.03, depth 3, 8 leaves, min leaf 200, L2 10, 30% of columns | 0.7491 |
-| - | Logistic Regression (C = 0.02, used in v4) | standard scaler, median imputer | 0.7469 |
 | - | Logistic Regression, elastic-net | C = 0.012, l1 ratio 0.2 | 0.7466 |
 | - | Linear SVM (calibrated) | C = 0.0066 | 0.7442 |
 | - | Linear Discriminant Analysis | shrinkage 0.5 | 0.7385 |
@@ -71,20 +69,12 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | Blend: 0.7 LightGBM + 0.1 CatBoost + 0.2 Logistic Regression | rank average, weights from OOF grid | 0.7526 |
 | - | Blend: greedy selection over all 11 models | mostly LightGBM, some logistic regression, CatBoost, linear SVM | 0.7527 |
 | - | Stacking: logistic regression on 11 models' predictions | out-of-fold stacking | 0.7518 |
-| - | Spline logistic regression | 4 quantile knots, degree 3, C = 0.02 | 0.7491 |
-| - | Explainable Boosting Machine | top 150 fold-local LightGBM gain features, 10 interactions | 0.7504 |
-| - | LightGBM three-seed fold ensemble | v2 setting, seeds 0/1/2 | 0.7520 |
 | - | LightGBM LambdaRank | random ranking groups of 1,024 rows | 0.7407 |
 | - | Logistic regression with numeric interactions | top 40 numeric features, pairwise terms, C = 0.02 | 0.7337 |
-| - | Corrected-feature LightGBM baseline | train-only feature vocabularies, fold-only category levels | 0.7519 |
-| - | Corrected LightGBM with fold-local hospital/attending counts | v2 parameters; target-encoding M = 50 | 0.7521 |
 | - | Target-encoding smoothing sweep | M = 10/25/50/100/200; best M = 25 (0.752085) | 0.7521 |
-| - | Corrected-feature EBM | top 150 fold-local LightGBM gain features, 10 interactions | 0.7504 |
 | - | Hospital x primary-diagnosis target encoding | nested OOF, M = 25 | 0.7514 |
-| - | Corrected LightGBM + EBM blend | rank weights 0.65/0.35; holdout AUC 0.7417 | 0.7526 |
 | - | Corrected feature-block ablation | each table dropped once; best was dropping procedures (0.7516), all below full v4 baseline | 0.7516 |
 | - | XGBoost DART (corrected features) | 500 rounds, depth 3, dropout 0.05; same folds and fold-local encodings | 0.7468 |
-| - | LightGBM, corrected features (backup for v9) | v2 parameters; TE M = 50; fold-local counts and category levels | 0.7521 |
 | - | LightGBM, corrected features + 16 row-level features | prior-utilization trends and ratios, age/LOS/LACE/Charlson interactions, follow-up-days buckets; v2 parameters; TE M = 50 | 0.7514 |
 | - | LightGBM, row-level features + fold-local hospital case-mix | adds 20 columns: hospital means of 10 variables (LOS, Charlson, LACE, age, prior visits...) and each stay's difference from them, computed on the training fold only | 0.7514 |
 | - | LightGBM, learning rate 0.02 | v2 parameters otherwise; single seed; 5-fold early stopping (903-1373 rounds) | 0.7516 |
@@ -92,23 +82,18 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | LightGBM with native attending/procedure categories | M=25 target encoding retained alongside raw categories; corrected features | 0.7471 |
 | - | LightGBM with monotone constraints | positive constraints on age, diagnosis burden and prior utilization | 0.7520 |
 | - | Blend: corrected LightGBM/EBM plus monotone LightGBM | monotone rank weight 0.05 selected on 80% OOF | 0.7526 |
-| - | Corrected LightGBM baseline rerun | same folds, parameters and M=50 target encoding; OOF 0.752053 | 0.7521 |
-| - | Corrected EBM rerun | top 150 fold-local features, 10 interactions, 2 outer bags; OOF 0.750382 | 0.7504 |
-| - | Corrected LightGBM + EBM blend rerun | 0.65/0.35 rank blend; holdout split unchanged | 0.7526 |
-| - | LightGBM, hospital × admission-month target encoding | nested OOF, M=50 | 0.7516 |
-| - | LightGBM, four clinical interactions | ICU × LOS; discharge planning × prior use; medication × diagnosis burden; lab abnormalities × LOS | 0.7517 |
-| - | LightGBM, positive-class weight 0.75 | scale_pos_weight 0.75 | 0.7520 |
+| - | LightGBM, hospital-by-admission-month target encoding | nested OOF, M=50 | 0.7516 |
+| - | LightGBM, four clinical interactions | ICU-by-LOS; discharge planning-by-prior use; medication-by-diagnosis burden; lab abnormalities-by-LOS | 0.7517 |
 | - | LightGBM, positive-class weight 1.25 | scale_pos_weight 1.25 | 0.7517 |
 | - | LightGBM, positive-class weight 1.5 | scale_pos_weight 1.5 | 0.7518 |
 | - | Blend: corrected v9 blend + hospital-month model | 5% added rank weight; 80/20 OOF split | 0.7526 |
-| - | Blend: corrected v9 blend + clinical-interaction model | 15% added rank weight; 80/20 OOF split; candidate `v11_clinical_interaction_blend.csv` | 0.7526 |
+| - | Blend: corrected v9 blend + clinical-interaction model | 15% added rank weight; 80/20 OOF split | 0.7526 |
 | - | Blend: corrected v9 blend + class-weight 1.25 model | 5% added rank weight; 80/20 OOF split | 0.7526 |
 | - | Blend: corrected v9 blend + class-weight 1.5 model | 7.5% added rank weight; 80/20 OOF split | 0.7526 |
-| - | LightGBM boosted-stump GAM | 1-leaf splits; corrected v4 features and fold-local target encoding | 0.7519 |
 | - | LightGBM with extra lab/vital time windows | Early-admission and last-12/24-hour discharge summaries; corrected v4 baseline | 0.7514 |
 | - | Blend: corrected v9 + extra lab/vital windows | 20% added rank weight selected on 80% OOF; holdout declined, no candidate kept | 0.7526 |
-| - | LightGBM with hospital × service-line target encoding | Fold-local M = 50; corrected v4 features | 0.7516 |
-| - | Blend: corrected v9 + hospital × service-line model | 7.5% added rank weight; holdout +0.000069, too small to trust | 0.7526 |
+| - | LightGBM with hospital-by-service-line target encoding | Fold-local M = 50; corrected v4 features | 0.7516 |
+| - | Blend: corrected v9 + hospital-by-service-line model | 7.5% added rank weight; holdout +0.000069, too small to trust | 0.7526 |
 
 
 

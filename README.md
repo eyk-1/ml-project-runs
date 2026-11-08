@@ -46,6 +46,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v8 | Rank blend: LightGBM v2 + v3 + spline logistic regression + EBM | weights 0.3 / 0.3 / 0.2 / 0.2 | **0.74695** |
 | v9 | Rank blend: corrected LightGBM + corrected EBM (clean fold-local pipeline, features v4) | weights 0.65 / 0.35; CV 0.7526 | **0.74755** |
 | v10 | Rank blend: corrected LightGBM (5-seed final fit) + corrected EBM | weights 0.65 / 0.35; CV 0.7526 | **0.74752** |
+| v11 | Rank blend: corrected v9 blend + boosted-stump GAM | GAM weight 0.325; CV 0.752794; holdout 0.741811 | **0.74714** |
 
 ## Ran but not submitted (CV only)
 
@@ -86,6 +87,26 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | LightGBM, corrected features + 16 row-level features | prior-utilization trends and ratios, age/LOS/LACE/Charlson interactions, follow-up-days buckets; v2 parameters; TE M = 50 | 0.7514 |
 | - | LightGBM, row-level features + fold-local hospital case-mix | adds 20 columns: hospital means of 10 variables (LOS, Charlson, LACE, age, prior visits...) and each stay's difference from them, computed on the training fold only | 0.7514 |
 | - | LightGBM, learning rate 0.02 | v2 parameters otherwise; single seed; 5-fold early stopping (903-1373 rounds) | 0.7516 |
+| - | AdaBoost, corrected features | 60 depth-3 trees, learning rate 0.1; fold-local median imputation and one-hot encoding | 0.7378 |
+| - | LightGBM with native attending/procedure categories | M=25 target encoding retained alongside raw categories; corrected features | 0.7471 |
+| - | LightGBM with monotone constraints | positive constraints on age, diagnosis burden and prior utilization | 0.7520 |
+| - | Blend: corrected LightGBM/EBM plus monotone LightGBM | monotone rank weight 0.05 selected on 80% OOF | 0.7526 |
+| - | Corrected LightGBM baseline rerun | same folds, parameters and M=50 target encoding; OOF 0.752053 | 0.7521 |
+| - | Corrected EBM rerun | top 150 fold-local features, 10 interactions, 2 outer bags; OOF 0.750382 | 0.7504 |
+| - | Corrected LightGBM + EBM blend rerun | 0.65/0.35 rank blend; holdout split unchanged | 0.7526 |
+| - | LightGBM, hospital × admission-month target encoding | nested OOF, M=50 | 0.7516 |
+| - | LightGBM, four clinical interactions | ICU × LOS; discharge planning × prior use; medication × diagnosis burden; lab abnormalities × LOS | 0.7517 |
+| - | LightGBM, positive-class weight 0.75 | scale_pos_weight 0.75 | 0.7520 |
+| - | LightGBM, positive-class weight 1.25 | scale_pos_weight 1.25 | 0.7517 |
+| - | LightGBM, positive-class weight 1.5 | scale_pos_weight 1.5 | 0.7518 |
+| - | Blend: corrected v9 blend + hospital-month model | 5% added rank weight; 80/20 OOF split | 0.7526 |
+| - | Blend: corrected v9 blend + clinical-interaction model | 15% added rank weight; 80/20 OOF split; candidate `v11_clinical_interaction_blend.csv` | 0.7526 |
+| - | Blend: corrected v9 blend + class-weight 0.75 model | 17.5% added rank weight; 80/20 OOF split; candidate v12 created | 0.7526 |
+| - | Blend: corrected v9 blend + class-weight 1.25 model | 5% added rank weight; 80/20 OOF split | 0.7526 |
+| - | Blend: corrected v9 blend + class-weight 1.5 model | 7.5% added rank weight; 80/20 OOF split | 0.7526 |
+| - | LightGBM boosted-stump GAM | 1-leaf splits; corrected v4 features and fold-local target encoding | 0.7519 |
+| - | LightGBM with extra lab/vital time windows | Early-admission and last-12/24-hour discharge summaries; corrected v4 baseline | 0.7514 |
+| - | Blend: corrected v9 + extra lab/vital windows | 20% added rank weight selected on 80% OOF; holdout declined, no candidate kept | 0.7526 |
 
 
 

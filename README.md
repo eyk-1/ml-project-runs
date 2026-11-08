@@ -43,6 +43,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v5 | XGBoost, 3-seed avg, target encoding | eta 0.04, depth 3, 363 rounds | **0.74397** |
 | v6 | Rank blend: 0.4 LightGBM (v2 features) + 0.4 LightGBM (v3 features) + 0.2 Logistic Regression | weights from OOF grid search | **0.74685** |
 | v7 | Kaggle notebook: rank blend 0.4 LightGBM (v2 features, 3 leaves) + 0.4 LightGBM (v3 features, 3 leaves) + 0.2 Logistic Regression | settings chosen by CV inside the notebook | **0.74679** |
+| v8 | Rank blend: LightGBM v2 + v3 + spline logistic regression + EBM | weights 0.3 / 0.3 / 0.2 / 0.2 | **0.74695** |
 
 ## Ran but not submitted (CV only)
 
@@ -66,6 +67,12 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | Blend: 0.7 LightGBM + 0.1 CatBoost + 0.2 Logistic Regression | rank average, weights from OOF grid | 0.7526 |
 | - | Blend: greedy selection over all 11 models | mostly LightGBM, some logistic regression, CatBoost, linear SVM | 0.7527 |
 | - | Stacking: logistic regression on 11 models' predictions | out-of-fold stacking | 0.7518 |
+| - | Spline logistic regression | 4 quantile knots, degree 3, C = 0.02 | 0.7491 |
+| - | Explainable Boosting Machine | top 150 fold-local LightGBM gain features, 10 interactions | 0.7504 |
+| - | LightGBM three-seed fold ensemble | v2 setting, seeds 0/1/2 | 0.7520 |
+| - | LightGBM LambdaRank | random ranking groups of 1,024 rows | 0.7407 |
+| - | Logistic regression with numeric interactions | top 40 numeric features, pairwise terms, C = 0.02 | 0.7337 |
+
 
 
 ## Rules followed

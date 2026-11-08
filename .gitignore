@@ -1,7 +1,15 @@
+# Raw competition data stays local; keep the directory placeholder.
 data/*
 !data/.gitkeep
+
+# Generated feature tables and model predictions are large and reproducible.
 artifacts/
-__pycache__/
 *.pkl
+*.npy
+
+# Assignment prompt PDF is reference material, not a project deliverable.
+/Challenge.pdf
+
+__pycache__/
 .ipynb_checkpoints/
 .DS_Store

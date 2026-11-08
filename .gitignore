@@ -7,8 +7,8 @@ artifacts/
 *.pkl
 *.npy
 
-# Assignment prompt PDF is reference material, not a project deliverable.
-/Challenge.pdf
+# Keep the final report local until it is ready to publish.
+/Readmission_Challenge_Report.pdf
 
 __pycache__/
 .ipynb_checkpoints/

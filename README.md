@@ -47,6 +47,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v9 | Rank blend: corrected LightGBM + corrected EBM (clean fold-local pipeline, features v4) | weights 0.65 / 0.35; CV 0.7526 | **0.74755** |
 | v10 | Rank blend: corrected LightGBM (5-seed final fit) + corrected EBM | weights 0.65 / 0.35; CV 0.7526 | **0.74752** |
 | v11 | Rank blend: corrected v9 blend + boosted-stump GAM | GAM weight 0.325; CV 0.752794; holdout 0.741811 | **0.74714** |
+| v12 | Rank blend: corrected v9 + LightGBM with positive-class weight 0.75 | 17.5% added rank weight; CV 0.752600; holdout 0.741773 | **0.74728** |
 
 ## Ran but not submitted (CV only)
 
@@ -101,12 +102,13 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | LightGBM, positive-class weight 1.5 | scale_pos_weight 1.5 | 0.7518 |
 | - | Blend: corrected v9 blend + hospital-month model | 5% added rank weight; 80/20 OOF split | 0.7526 |
 | - | Blend: corrected v9 blend + clinical-interaction model | 15% added rank weight; 80/20 OOF split; candidate `v11_clinical_interaction_blend.csv` | 0.7526 |
-| - | Blend: corrected v9 blend + class-weight 0.75 model | 17.5% added rank weight; 80/20 OOF split; candidate v12 created | 0.7526 |
 | - | Blend: corrected v9 blend + class-weight 1.25 model | 5% added rank weight; 80/20 OOF split | 0.7526 |
 | - | Blend: corrected v9 blend + class-weight 1.5 model | 7.5% added rank weight; 80/20 OOF split | 0.7526 |
 | - | LightGBM boosted-stump GAM | 1-leaf splits; corrected v4 features and fold-local target encoding | 0.7519 |
 | - | LightGBM with extra lab/vital time windows | Early-admission and last-12/24-hour discharge summaries; corrected v4 baseline | 0.7514 |
 | - | Blend: corrected v9 + extra lab/vital windows | 20% added rank weight selected on 80% OOF; holdout declined, no candidate kept | 0.7526 |
+| - | LightGBM with hospital × service-line target encoding | Fold-local M = 50; corrected v4 features | 0.7516 |
+| - | Blend: corrected v9 + hospital × service-line model | 7.5% added rank weight; holdout +0.000069, too small to trust | 0.7526 |
 
 
 

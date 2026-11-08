@@ -44,6 +44,7 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v6 | Rank blend: 0.4 LightGBM (v2 features) + 0.4 LightGBM (v3 features) + 0.2 Logistic Regression | weights from OOF grid search | **0.74685** |
 | v7 | Kaggle notebook: rank blend 0.4 LightGBM (v2 features, 3 leaves) + 0.4 LightGBM (v3 features, 3 leaves) + 0.2 Logistic Regression | settings chosen by CV inside the notebook | **0.74679** |
 | v8 | Rank blend: LightGBM v2 + v3 + spline logistic regression + EBM | weights 0.3 / 0.3 / 0.2 / 0.2 | **0.74695** |
+| v9 | Rank blend: corrected LightGBM + corrected EBM (clean fold-local pipeline, features v4) | weights 0.65 / 0.35; CV 0.7526 | **0.74755** |
 
 ## Ran but not submitted (CV only)
 
@@ -72,6 +73,15 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | - | LightGBM three-seed fold ensemble | v2 setting, seeds 0/1/2 | 0.7520 |
 | - | LightGBM LambdaRank | random ranking groups of 1,024 rows | 0.7407 |
 | - | Logistic regression with numeric interactions | top 40 numeric features, pairwise terms, C = 0.02 | 0.7337 |
+| - | Corrected-feature LightGBM baseline | train-only feature vocabularies, fold-only category levels | 0.7519 |
+| - | Corrected LightGBM with fold-local hospital/attending counts | v2 parameters; target-encoding M = 50 | 0.7521 |
+| - | Target-encoding smoothing sweep | M = 10/25/50/100/200; best M = 25 (0.752085) | 0.7521 |
+| - | Corrected-feature EBM | top 150 fold-local LightGBM gain features, 10 interactions | 0.7504 |
+| - | Hospital x primary-diagnosis target encoding | nested OOF, M = 25 | 0.7514 |
+| - | Corrected LightGBM + EBM blend | rank weights 0.65/0.35; holdout AUC 0.7417 | 0.7526 |
+| - | Corrected feature-block ablation | each table dropped once; best was dropping procedures (0.7516), all below full v4 baseline | 0.7516 |
+| - | XGBoost DART (corrected features) | 500 rounds, depth 3, dropout 0.05; same folds and fold-local encodings | 0.7468 |
+| - | LightGBM, corrected features (backup for v9) | v2 parameters; TE M = 50; fold-local counts and category levels | 0.7521 |
 
 
 

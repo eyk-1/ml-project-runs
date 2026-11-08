@@ -1,0 +1,466 @@
+column,source_table,how_created,added_in,dtype,pct_missing
+hospital_id,index_encounters,copied (categorical),v1,categorical,0.0
+admission_type,index_encounters,copied; 'Not Available'/'Not Mapped' set to missing,v1,categorical,3.9
+admission_source,index_encounters,copied; 'Not Available'/'Not Mapped' set to missing,v1,categorical,6.0
+service_line,index_encounters,copied (categorical),v1,categorical,0.0
+discharge_disposition,index_encounters,copied; 'Not Available'/'Not Mapped' set to missing,v1,categorical,1.8
+attending_id,index_encounters,"copied (categorical, ~1000 levels); NOT fed to the models raw, replaced by te_attending_id and attending_n",v1,categorical,0.0
+attending_specialty,index_encounters,"copied (categorical), 46% missing",v1,categorical,46.4
+admit_weight_kg,index_encounters,"copied, 87% missing",v1,numeric,87.0
+sex,patients,copied; 'U' set to missing,v1,categorical,0.1
+race_ethnicity,patients,copied; '?' set to missing,v1,categorical,2.5
+language,patients,copied,v1,categorical,7.1
+marital_status,patients,copied,v1,categorical,9.0
+insurance_type,patients,"copied; case variants merged (MEDICARE -> Medicare), 10 spellings -> 5 values",v1,categorical,17.2
+zip3,patients,copied as a number,v1,numeric,4.0
+deprivation_index,patients,copied,v1,numeric,4.7
+bed_size,hospitals,joined on hospital_id,v1,numeric,8.2
+teaching_flag,hospitals,joined on hospital_id,v1,numeric,0.0
+urban_rural,hospitals,joined on hospital_id,v1,categorical,0.0
+ownership,hospitals,joined on hospital_id,v1,categorical,0.0
+los_days,index_encounters,discharge_dt minus admit_dt in days; <=0 or >120 set to missing,v1,numeric,0.0
+age,patients + index_encounters,admission year minus birth_year (birth_year < 1910 set to missing),v1,numeric,0.2
+admit_hour,index_encounters,hour of admit_dt,v1,numeric,0.0
+admit_dow,index_encounters,weekday of admit_dt,v1,numeric,0.0
+admit_month,index_encounters,month of admit_dt,v1,numeric,0.0
+admit_year,index_encounters,year of admit_dt,v1,numeric,0.0
+weight_missing,index_encounters,1 if admit_weight_kg is missing,v1,numeric,0.0
+spec_missing,index_encounters,1 if attending_specialty is missing,v1,numeric,0.0
+dx_n,diagnoses,number of diagnosis rows after removing duplicates,v1,numeric,0.0
+dx_chronic_n,diagnoses + icd10_lookup,number of diagnoses flagged chronic in the lookup,v1,numeric,0.0
+dx_poa_n,diagnoses,number of diagnoses not present on admission ('N'),v1,numeric,0.0
+dx_poa_missing,diagnoses,number of diagnoses with missing present_on_admission,v1,numeric,0.0
+dx_primary_chapter,diagnoses + icd10_lookup,ICD-10 chapter of the primary diagnosis,v1,categorical,0.0
+dx_primary3,diagnoses,first 3 characters of the primary ICD-10 code (after adding missing decimal points),v1,categorical,0.0
+dxch_Blood/Neoplasms,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Blood/Neoplasms""",v1,numeric,0.0
+dxch_Circulatory,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Circulatory""",v1,numeric,0.0
+dxch_Digestive,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Digestive""",v1,numeric,0.0
+dxch_Endocrine/metabolic,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Endocrine/metabolic""",v1,numeric,0.0
+dxch_External causes,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""External causes""",v1,numeric,0.0
+dxch_Genitourinary,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Genitourinary""",v1,numeric,0.0
+dxch_Health status/services,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Health status/services""",v1,numeric,0.0
+dxch_Infectious diseases,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Infectious diseases""",v1,numeric,0.0
+dxch_Injury,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Injury""",v1,numeric,0.0
+dxch_Mental/behavioral,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Mental/behavioral""",v1,numeric,0.0
+dxch_Musculoskeletal,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Musculoskeletal""",v1,numeric,0.0
+dxch_Neoplasms,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Neoplasms""",v1,numeric,0.0
+dxch_Nervous system,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Nervous system""",v1,numeric,0.0
+dxch_Respiratory,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Respiratory""",v1,numeric,0.0
+dxch_Skin,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Skin""",v1,numeric,0.0
+dxch_Symptoms/signs,diagnoses + icd10_lookup,"number of diagnoses in ICD-10 chapter ""Symptoms/signs""",v1,numeric,0.0
+dx3_A41,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_C50,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v4,numeric,0.0
+dx3_C79,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_C80,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_D64,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E03,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E11,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E66,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E78,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E86,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_E87,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_F03,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_F17,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_F32,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_G40,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_G45,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_G47,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_G89,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_G93,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I10,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I11,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I21,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I25,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I47,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I48,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I50,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_I63,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_J13,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_J15,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_J18,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_J44,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_J45,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K21,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K35,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K56,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K57,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K59,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K80,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K85,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_K92,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_L03,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_L89,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_M10,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_M16,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_M17,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_N17,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_N18,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_N39,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R06,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R07,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R10,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R41,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R42,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_R55,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_S72,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_W19,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_Z72,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_Z79,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_Z86,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+dx3_Z91,diagnoses,1 if the stay has this 3-character diagnosis; vocabulary selected from training encounters,v1,numeric,0.0
+proc_n,procedures,number of procedures (0 if the stay has none),v1,numeric,0.0
+proc_first,procedures,"first procedure code; NOT fed to the models raw, replaced by te_proc_first",v1,categorical,82.9
+lab_Albumin_last,lab_results,"last value of the stay (by collection time) of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.7
+lab_Bnp_last,lab_results,"last value of the stay (by collection time) of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_last,lab_results,"last value of the stay (by collection time) of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_last,lab_results,"last value of the stay (by collection time) of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.8
+lab_Glucose_last,lab_results,"last value of the stay (by collection time) of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.5
+lab_Hba1C_last,lab_results,"last value of the stay (by collection time) of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_last,lab_results,"last value of the stay (by collection time) of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.9
+lab_Inr_last,lab_results,"last value of the stay (by collection time) of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_last,lab_results,"last value of the stay (by collection time) of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_last,lab_results,"last value of the stay (by collection time) of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.1
+lab_Sodium_last,lab_results,"last value of the stay (by collection time) of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_last,lab_results,"last value of the stay (by collection time) of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_last,lab_results,"last value of the stay (by collection time) of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_Albumin_mean,lab_results,"mean over the stay of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.7
+lab_Bnp_mean,lab_results,"mean over the stay of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_mean,lab_results,"mean over the stay of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_mean,lab_results,"mean over the stay of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.8
+lab_Glucose_mean,lab_results,"mean over the stay of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.5
+lab_Hba1C_mean,lab_results,"mean over the stay of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_mean,lab_results,"mean over the stay of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.9
+lab_Inr_mean,lab_results,"mean over the stay of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_mean,lab_results,"mean over the stay of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_mean,lab_results,"mean over the stay of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.1
+lab_Sodium_mean,lab_results,"mean over the stay of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_mean,lab_results,"mean over the stay of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_mean,lab_results,"mean over the stay of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_Albumin_min,lab_results,"minimum over the stay of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.7
+lab_Bnp_min,lab_results,"minimum over the stay of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_min,lab_results,"minimum over the stay of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_min,lab_results,"minimum over the stay of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.8
+lab_Glucose_min,lab_results,"minimum over the stay of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.5
+lab_Hba1C_min,lab_results,"minimum over the stay of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_min,lab_results,"minimum over the stay of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.9
+lab_Inr_min,lab_results,"minimum over the stay of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_min,lab_results,"minimum over the stay of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_min,lab_results,"minimum over the stay of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.1
+lab_Sodium_min,lab_results,"minimum over the stay of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_min,lab_results,"minimum over the stay of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_min,lab_results,"minimum over the stay of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_Albumin_max,lab_results,"maximum over the stay of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.7
+lab_Bnp_max,lab_results,"maximum over the stay of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_max,lab_results,"maximum over the stay of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_max,lab_results,"maximum over the stay of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.8
+lab_Glucose_max,lab_results,"maximum over the stay of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.5
+lab_Hba1C_max,lab_results,"maximum over the stay of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_max,lab_results,"maximum over the stay of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.9
+lab_Inr_max,lab_results,"maximum over the stay of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_max,lab_results,"maximum over the stay of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_max,lab_results,"maximum over the stay of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.1
+lab_Sodium_max,lab_results,"maximum over the stay of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_max,lab_results,"maximum over the stay of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_max,lab_results,"maximum over the stay of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_Albumin_cnt,lab_results,"number of valid measurements of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.5
+lab_Bnp_cnt,lab_results,"number of valid measurements of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_cnt,lab_results,"number of valid measurements of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_cnt,lab_results,"number of valid measurements of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Glucose_cnt,lab_results,"number of valid measurements of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.4
+lab_Hba1C_cnt,lab_results,"number of valid measurements of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_cnt,lab_results,"number of valid measurements of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.6
+lab_Inr_cnt,lab_results,"number of valid measurements of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_cnt,lab_results,"number of valid measurements of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_cnt,lab_results,"number of valid measurements of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.0
+lab_Sodium_cnt,lab_results,"number of valid measurements of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_cnt,lab_results,"number of valid measurements of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_cnt,lab_results,"number of valid measurements of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_Albumin_delta,lab_results,"last value minus first value of Albumin, after converting to one unit and setting implausible values to missing",v1,numeric,62.7
+lab_Bnp_delta,lab_results,"last value minus first value of Bnp, after converting to one unit and setting implausible values to missing",v1,numeric,87.7
+lab_Bun_delta,lab_results,"last value minus first value of Bun, after converting to one unit and setting implausible values to missing",v1,numeric,23.8
+lab_Creatinine_delta,lab_results,"last value minus first value of Creatinine, after converting to one unit and setting implausible values to missing",v1,numeric,13.8
+lab_Glucose_delta,lab_results,"last value minus first value of Glucose, after converting to one unit and setting implausible values to missing",v1,numeric,23.5
+lab_Hba1C_delta,lab_results,"last value minus first value of Hba1C, after converting to one unit and setting implausible values to missing",v1,numeric,84.0
+lab_Hemoglobin_delta,lab_results,"last value minus first value of Hemoglobin, after converting to one unit and setting implausible values to missing",v1,numeric,14.9
+lab_Inr_delta,lab_results,"last value minus first value of Inr, after converting to one unit and setting implausible values to missing",v1,numeric,93.8
+lab_Lactate_delta,lab_results,"last value minus first value of Lactate, after converting to one unit and setting implausible values to missing",v1,numeric,90.3
+lab_Potassium_delta,lab_results,"last value minus first value of Potassium, after converting to one unit and setting implausible values to missing",v1,numeric,19.1
+lab_Sodium_delta,lab_results,"last value minus first value of Sodium, after converting to one unit and setting implausible values to missing",v1,numeric,13.6
+lab_Troponin_I_delta,lab_results,"last value minus first value of Troponin_I, after converting to one unit and setting implausible values to missing",v1,numeric,85.6
+lab_Wbc_delta,lab_results,"last value minus first value of Wbc, after converting to one unit and setting implausible values to missing",v1,numeric,17.0
+lab_abn_H,lab_results,number of results flagged 'H',v1,numeric,9.2
+lab_abn_L,lab_results,number of results flagged 'L',v1,numeric,9.2
+lab_total,lab_results,total number of lab results,v1,numeric,0.0
+vit_DBP_last,vitals,"last value of the stay (by collection time) of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_last,vitals,"last value of the stay (by collection time) of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_RR_last,vitals,"last value of the stay (by collection time) of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SBP_last,vitals,"last value of the stay (by collection time) of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_last,vitals,"last value of the stay (by collection time) of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_last,vitals,"last value of the stay (by collection time) of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_DBP_mean,vitals,"mean over the stay of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_mean,vitals,"mean over the stay of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_RR_mean,vitals,"mean over the stay of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SBP_mean,vitals,"mean over the stay of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_mean,vitals,"mean over the stay of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_mean,vitals,"mean over the stay of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_DBP_min,vitals,"minimum over the stay of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_min,vitals,"minimum over the stay of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_RR_min,vitals,"minimum over the stay of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SBP_min,vitals,"minimum over the stay of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_min,vitals,"minimum over the stay of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_min,vitals,"minimum over the stay of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_DBP_max,vitals,"maximum over the stay of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_max,vitals,"maximum over the stay of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_RR_max,vitals,"maximum over the stay of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SBP_max,vitals,"maximum over the stay of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_max,vitals,"maximum over the stay of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_max,vitals,"maximum over the stay of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_DBP_std,vitals,"standard deviation over the stay of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.9
+vit_HR_std,vitals,"standard deviation over the stay of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.9
+vit_RR_std,vitals,"standard deviation over the stay of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.9
+vit_SBP_std,vitals,"standard deviation over the stay of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.8
+vit_SPO2_std,vitals,"standard deviation over the stay of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.8
+vit_TEMP_std,vitals,"standard deviation over the stay of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,3.8
+vit_DBP_cnt,vitals,"number of valid measurements of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_cnt,vitals,"number of valid measurements of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_RR_cnt,vitals,"number of valid measurements of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SBP_cnt,vitals,"number of valid measurements of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_cnt,vitals,"number of valid measurements of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_cnt,vitals,"number of valid measurements of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_HR_delta,vitals,"last value minus first value of HR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.2
+vit_SBP_delta,vitals,"last value minus first value of SBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_DBP_delta,vitals,"last value minus first value of DBP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_RR_delta,vitals,"last value minus first value of RR, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_SPO2_delta,vitals,"last value minus first value of SPO2, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+vit_TEMP_delta,vitals,"last value minus first value of TEMP, temperature converted to Celsius, implausible readings set to missing",v1,numeric,0.1
+med_n,medications,number of medication rows (duplicates removed),v1,numeric,0.0
+med_distinct,medications,number of distinct drug names,v1,numeric,0.0
+med_cont_n,medications,number of medications continued at discharge,v1,numeric,0.0
+med_cont_missing,medications,number of medications with missing continued_at_discharge,v1,numeric,0.0
+med_iv_n,medications,number of IV-route medications,v1,numeric,0.0
+med_nostop_n,medications,number of medications with no stop date,v1,numeric,0.0
+med_ACE_ARB,medications,1 if the stay has a medication of class ACE_ARB,v1,numeric,0.0
+med_ANALGESIC,medications,1 if the stay has a medication of class ANALGESIC,v1,numeric,0.0
+med_ANTIBIOTIC,medications,1 if the stay has a medication of class ANTIBIOTIC,v1,numeric,0.0
+med_ANTICOAGULANT,medications,1 if the stay has a medication of class ANTICOAGULANT,v1,numeric,0.0
+med_ANTIDIABETIC_ORAL,medications,1 if the stay has a medication of class ANTIDIABETIC_ORAL,v1,numeric,0.0
+med_ANTIEMETIC,medications,1 if the stay has a medication of class ANTIEMETIC,v1,numeric,0.0
+med_ANTIPLATELET,medications,1 if the stay has a medication of class ANTIPLATELET,v1,numeric,0.0
+med_ANTIPSYCHOTIC,medications,1 if the stay has a medication of class ANTIPSYCHOTIC,v1,numeric,0.0
+med_BENZODIAZEPINE,medications,1 if the stay has a medication of class BENZODIAZEPINE,v1,numeric,0.0
+med_BETA_BLOCKER,medications,1 if the stay has a medication of class BETA_BLOCKER,v1,numeric,0.0
+med_BRONCHODILATOR,medications,1 if the stay has a medication of class BRONCHODILATOR,v1,numeric,0.0
+med_CCB,medications,1 if the stay has a medication of class CCB,v1,numeric,0.0
+med_CORTICOSTEROID,medications,1 if the stay has a medication of class CORTICOSTEROID,v1,numeric,0.0
+med_ELECTROLYTE,medications,1 if the stay has a medication of class ELECTROLYTE,v1,numeric,0.0
+med_INSULIN,medications,1 if the stay has a medication of class INSULIN,v1,numeric,0.0
+med_LOOP_DIURETIC,medications,1 if the stay has a medication of class LOOP_DIURETIC,v1,numeric,0.0
+med_OPIOID,medications,1 if the stay has a medication of class OPIOID,v1,numeric,0.0
+med_PPI,medications,1 if the stay has a medication of class PPI,v1,numeric,0.0
+med_SSRI,medications,1 if the stay has a medication of class SSRI,v1,numeric,0.0
+med_STATIN,medications,1 if the stay has a medication of class STATIN,v1,numeric,0.0
+med_SUPPLEMENT,medications,1 if the stay has a medication of class SUPPLEMENT,v1,numeric,0.0
+med_THYROID,medications,1 if the stay has a medication of class THYROID,v1,numeric,0.0
+tr_n,unit_transfers,number of unit rows,v1,numeric,0.0
+tr_last_unit,unit_transfers,last unit of the stay,v1,categorical,0.0
+tr_first_unit,unit_transfers,first unit of the stay,v1,categorical,0.0
+tr_hours_ED,unit_transfers,total hours spent in unit ED,v1,numeric,21.2
+tr_hours_ICU,unit_transfers,total hours spent in unit ICU,v1,numeric,94.9
+tr_hours_STEPDOWN,unit_transfers,total hours spent in unit STEPDOWN,v1,numeric,92.6
+tr_hours_WARD,unit_transfers,total hours spent in unit WARD,v1,numeric,0.0
+tr_icu,unit_transfers,1 if the stay included an ICU unit,v1,numeric,0.0
+followup_scheduled_days,discharge_planning,copied; values > 60 set to missing; missing for stays without a row,v1,numeric,48.2
+home_health_referral,discharge_planning,Y/N mapped to 1/0,v1,numeric,11.1
+med_reconciliation_done,discharge_planning,copied (0/1),v1,numeric,0.0
+education_done,discharge_planning,Yes/No mapped to 1/0,v1,numeric,18.1
+dp_present,discharge_planning,1 if the stay has a discharge-planning row,v1,numeric,0.0
+followup_missing,discharge_planning,1 if followup_scheduled_days is missing in an existing row,v1,numeric,11.1
+pu_ED_30d,prior_utilization,number of prior ED visits within 30 days before admission,v1,numeric,0.0
+pu_ED_90d,prior_utilization,number of prior ED visits within 90 days before admission,v1,numeric,0.0
+pu_ED_180d,prior_utilization,number of prior ED visits within 180 days before admission,v1,numeric,0.0
+pu_ED_365d,prior_utilization,number of prior ED visits within 365 days before admission,v1,numeric,0.0
+pu_ED_all,prior_utilization,number of all prior ED visits,v1,numeric,0.0
+pu_ED_lastgap,prior_utilization,days since the most recent prior ED visit,v1,numeric,53.2
+pu_IP_30d,prior_utilization,number of prior IP visits within 30 days before admission,v1,numeric,0.0
+pu_IP_90d,prior_utilization,number of prior IP visits within 90 days before admission,v1,numeric,0.0
+pu_IP_180d,prior_utilization,number of prior IP visits within 180 days before admission,v1,numeric,0.0
+pu_IP_365d,prior_utilization,number of prior IP visits within 365 days before admission,v1,numeric,0.0
+pu_IP_all,prior_utilization,number of all prior IP visits,v1,numeric,0.0
+pu_IP_lastgap,prior_utilization,days since the most recent prior IP visit,v1,numeric,70.8
+pu_OP_30d,prior_utilization,number of prior OP visits within 30 days before admission,v1,numeric,0.0
+pu_OP_90d,prior_utilization,number of prior OP visits within 90 days before admission,v1,numeric,0.0
+pu_OP_180d,prior_utilization,number of prior OP visits within 180 days before admission,v1,numeric,0.0
+pu_OP_365d,prior_utilization,number of prior OP visits within 365 days before admission,v1,numeric,0.0
+pu_OP_all,prior_utilization,number of all prior OP visits,v1,numeric,0.0
+pu_OP_lastgap,prior_utilization,days since the most recent prior OP visit,v1,numeric,0.9
+pu_all,prior_utilization,number of prior visits before this encounter admission before the index admission (duplicates removed),v1,numeric,0.0
+pu_nhosp,prior_utilization,number of distinct hospitals visited before,v1,numeric,0.0
+pu_acute_365,prior_utilization,prior ED + inpatient visits in the last 365 days,v1,numeric,0.0
+pu_acute_90,prior_utilization,prior ED + inpatient visits in the last 90 days,v1,numeric,0.0
+charlson,diagnoses,simplified Charlson comorbidity score: weights per 3-character ICD-10 prefix summed over the stay,v2,numeric,0.0
+dx_distinct3,diagnoses,number of distinct 3-character ICD-10 codes,v2,numeric,0.0
+dx3b_C18,diagnoses,1 if the stay has this additional 3-character diagnosis; vocabulary selected from training encounters,v4,numeric,0.0
+dx3b_C25,diagnoses,1 if the stay has this additional 3-character diagnosis; vocabulary selected from training encounters,v2,numeric,0.0
+dx3b_C34,diagnoses,1 if the stay has this additional 3-character diagnosis; vocabulary selected from training encounters,v2,numeric,0.0
+lace,"derived (index_encounters, diagnoses, prior_utilization)","LACE-style score: length-of-stay points + 3 if emergency admission + Charlson points + min(ED visits in 180 d, 4)",v2,numeric,0.0
+bun_creat,lab_results,last BUN divided by last creatinine,v2,numeric,33.9
+med_cont_frac,medications,med_cont_n divided by med_n,v2,numeric,2.0
+med_per_day,medications + index_encounters,med_n divided by length of stay,v2,numeric,0.0
+dx_per_day,diagnoses + index_encounters,dx_n divided by length of stay,v2,numeric,0.0
+pu_acute_frac,prior_utilization,acute (ED+IP) share of all prior visits before this encounter admission,v2,numeric,0.5
+prior_ip_recent,prior_utilization,1 if the last prior inpatient visit was within 30 days of admission,v2,numeric,0.0
+age_x_charlson,"derived (patients, diagnoses)",age times Charlson score,v2,numeric,0.2
+los_x_charlson,"derived (index_encounters, diagnoses)",length of stay times Charlson score,v2,numeric,0.0
+icu_hours,unit_transfers,total hours in ICU (same as tr_hours_ICU),v2,numeric,94.9
+shock_index,vitals,last heart rate divided by last systolic BP,v2,numeric,0.3
+lab_outlier_n,lab_results,number of results outside the plausible range after unit conversion,v2,numeric,0.0
+lab_distinct_tests,lab_results,number of different lab tests done,v2,numeric,0.0
+l3_hrs_last_lab,lab_results + index_encounters,hours between the last lab collection and discharge,v3,numeric,0.0
+l3_hrs_mean_lab,lab_results + index_encounters,mean hours between each lab collection and discharge,v3,numeric,0.0
+l3_n_last24,lab_results + index_encounters,number of lab results in the last 24 h before discharge,v3,numeric,0.0
+l3_frac_last24,lab_results + index_encounters,share of lab results in the last 24 h,v3,numeric,0.0
+l3_abn_last24,lab_results + index_encounters,number of abnormal (H/L) results in the last 24 h,v3,numeric,0.0
+l3_albumin_hrs_since,lab_results + index_encounters,hours between the last albumin measurement and discharge,v3,numeric,62.5
+l3_bnp_hrs_since,lab_results + index_encounters,hours between the last bnp measurement and discharge,v3,numeric,87.7
+l3_bun_hrs_since,lab_results + index_encounters,hours between the last bun measurement and discharge,v3,numeric,23.8
+l3_creatinine_hrs_since,lab_results + index_encounters,hours between the last creatinine measurement and discharge,v3,numeric,13.6
+l3_glucose_hrs_since,lab_results + index_encounters,hours between the last glucose measurement and discharge,v3,numeric,23.4
+l3_hba1c_hrs_since,lab_results + index_encounters,hours between the last hba1c measurement and discharge,v3,numeric,84.0
+l3_hemoglobin_hrs_since,lab_results + index_encounters,hours between the last hemoglobin measurement and discharge,v3,numeric,14.6
+l3_inr_hrs_since,lab_results + index_encounters,hours between the last inr measurement and discharge,v3,numeric,93.8
+l3_lactate_hrs_since,lab_results + index_encounters,hours between the last lactate measurement and discharge,v3,numeric,90.3
+l3_potassium_hrs_since,lab_results + index_encounters,hours between the last potassium measurement and discharge,v3,numeric,19.0
+l3_sodium_hrs_since,lab_results + index_encounters,hours between the last sodium measurement and discharge,v3,numeric,13.6
+l3_troponin_i_hrs_since,lab_results + index_encounters,hours between the last troponin_i measurement and discharge,v3,numeric,85.6
+l3_wbc_hrs_since,lab_results + index_encounters,hours between the last wbc measurement and discharge,v3,numeric,17.0
+l3_albumin_lastflag,lab_results,"abnormal flag of the last albumin result (-1 = L, 0 = N, 1 = H)",v3,numeric,70.1
+l3_bnp_lastflag,lab_results,"abnormal flag of the last bnp result (-1 = L, 0 = N, 1 = H)",v3,numeric,90.2
+l3_bun_lastflag,lab_results,"abnormal flag of the last bun result (-1 = L, 0 = N, 1 = H)",v3,numeric,38.1
+l3_creatinine_lastflag,lab_results,"abnormal flag of the last creatinine result (-1 = L, 0 = N, 1 = H)",v3,numeric,29.8
+l3_glucose_lastflag,lab_results,"abnormal flag of the last glucose result (-1 = L, 0 = N, 1 = H)",v3,numeric,36.9
+l3_hba1c_lastflag,lab_results,"abnormal flag of the last hba1c result (-1 = L, 0 = N, 1 = H)",v3,numeric,87.4
+l3_hemoglobin_lastflag,lab_results,"abnormal flag of the last hemoglobin result (-1 = L, 0 = N, 1 = H)",v3,numeric,30.9
+l3_inr_lastflag,lab_results,"abnormal flag of the last inr result (-1 = L, 0 = N, 1 = H)",v3,numeric,95.0
+l3_lactate_lastflag,lab_results,"abnormal flag of the last lactate result (-1 = L, 0 = N, 1 = H)",v3,numeric,92.0
+l3_potassium_lastflag,lab_results,"abnormal flag of the last potassium result (-1 = L, 0 = N, 1 = H)",v3,numeric,34.3
+l3_sodium_lastflag,lab_results,"abnormal flag of the last sodium result (-1 = L, 0 = N, 1 = H)",v3,numeric,29.7
+l3_troponin_i_lastflag,lab_results,"abnormal flag of the last troponin_i result (-1 = L, 0 = N, 1 = H)",v3,numeric,88.3
+l3_wbc_lastflag,lab_results,"abnormal flag of the last wbc result (-1 = L, 0 = N, 1 = H)",v3,numeric,32.7
+l3_albumin_slope,lab_results + index_encounters,least-squares slope of albumin against hours since admission (needs at least 3 values),v3,numeric,97.6
+l3_bnp_slope,lab_results + index_encounters,least-squares slope of bnp against hours since admission (needs at least 3 values),v3,numeric,99.1
+l3_bun_slope,lab_results + index_encounters,least-squares slope of bun against hours since admission (needs at least 3 values),v3,numeric,74.0
+l3_creatinine_slope,lab_results + index_encounters,least-squares slope of creatinine against hours since admission (needs at least 3 values),v3,numeric,70.9
+l3_glucose_slope,lab_results + index_encounters,least-squares slope of glucose against hours since admission (needs at least 3 values),v3,numeric,58.0
+l3_hba1c_slope,lab_results + index_encounters,least-squares slope of hba1c against hours since admission (needs at least 3 values),v3,numeric,100.0
+l3_hemoglobin_slope,lab_results + index_encounters,least-squares slope of hemoglobin against hours since admission (needs at least 3 values),v3,numeric,76.2
+l3_inr_slope,lab_results + index_encounters,least-squares slope of inr against hours since admission (needs at least 3 values),v3,numeric,97.7
+l3_lactate_slope,lab_results + index_encounters,least-squares slope of lactate against hours since admission (needs at least 3 values),v3,numeric,94.3
+l3_potassium_slope,lab_results + index_encounters,least-squares slope of potassium against hours since admission (needs at least 3 values),v3,numeric,72.6
+l3_sodium_slope,lab_results + index_encounters,least-squares slope of sodium against hours since admission (needs at least 3 values),v3,numeric,70.8
+l3_troponin_i_slope,lab_results + index_encounters,least-squares slope of troponin_i against hours since admission (needs at least 3 values),v3,numeric,95.6
+l3_wbc_slope,lab_results + index_encounters,least-squares slope of wbc against hours since admission (needs at least 3 values),v3,numeric,76.0
+v3_hrs_last_vital,vitals + index_encounters,hours between the last vital reading and discharge,v3,numeric,0.0
+v3_abn_total,vitals,"readings outside clinical thresholds (HR>100 or <50, SBP<90 or >180, SpO2<92, temp>38, RR>24)",v3,numeric,0.0
+v3_abn_frac,vitals,share of readings outside those thresholds,v3,numeric,0.0
+v3_n_last24,vitals + index_encounters,number of readings in the last 24 h,v3,numeric,0.0
+v3_abn_last24,vitals + index_encounters,threshold-abnormal readings in the last 24 h,v3,numeric,0.0
+v3_abn_last12,vitals + index_encounters,threshold-abnormal readings in the last 12 h,v3,numeric,0.0
+v3_abn_last24_frac,vitals + index_encounters,abnormal share of the readings in the last 24 h,v3,numeric,0.0
+v3_DBP_l24_mean,vitals + index_encounters,mean of DBP over the last 24 h before discharge,v3,numeric,5.0
+v3_HR_l24_mean,vitals + index_encounters,mean of HR over the last 24 h before discharge,v3,numeric,4.9
+v3_RR_l24_mean,vitals + index_encounters,mean of RR over the last 24 h before discharge,v3,numeric,5.0
+v3_SBP_l24_mean,vitals + index_encounters,mean of SBP over the last 24 h before discharge,v3,numeric,4.9
+v3_SPO2_l24_mean,vitals + index_encounters,mean of SPO2 over the last 24 h before discharge,v3,numeric,4.8
+v3_TEMP_l24_mean,vitals + index_encounters,mean of TEMP over the last 24 h before discharge,v3,numeric,4.9
+v3_DBP_l24_min,vitals + index_encounters,min of DBP over the last 24 h before discharge,v3,numeric,5.0
+v3_HR_l24_min,vitals + index_encounters,min of HR over the last 24 h before discharge,v3,numeric,4.9
+v3_RR_l24_min,vitals + index_encounters,min of RR over the last 24 h before discharge,v3,numeric,5.0
+v3_SBP_l24_min,vitals + index_encounters,min of SBP over the last 24 h before discharge,v3,numeric,4.9
+v3_SPO2_l24_min,vitals + index_encounters,min of SPO2 over the last 24 h before discharge,v3,numeric,4.8
+v3_TEMP_l24_min,vitals + index_encounters,min of TEMP over the last 24 h before discharge,v3,numeric,4.9
+v3_DBP_l24_max,vitals + index_encounters,max of DBP over the last 24 h before discharge,v3,numeric,5.0
+v3_HR_l24_max,vitals + index_encounters,max of HR over the last 24 h before discharge,v3,numeric,4.9
+v3_RR_l24_max,vitals + index_encounters,max of RR over the last 24 h before discharge,v3,numeric,5.0
+v3_SBP_l24_max,vitals + index_encounters,max of SBP over the last 24 h before discharge,v3,numeric,4.9
+v3_SPO2_l24_max,vitals + index_encounters,max of SPO2 over the last 24 h before discharge,v3,numeric,4.8
+v3_TEMP_l24_max,vitals + index_encounters,max of TEMP over the last 24 h before discharge,v3,numeric,4.9
+m3_started_last1d,medications + index_encounters,medications started within 1 day of discharge,v3,numeric,0.0
+m3_started_admit_day,medications + index_encounters,medications started on or before the admission day,v3,numeric,0.0
+m3_stopped_before_dc,medications + index_encounters,medications with a stop date before discharge,v3,numeric,0.0
+m3_mean_dur_days,medications,mean days between start and stop date,v3,numeric,19.3
+m3_n_highrisk,medications,"medications whose normalised name matches a high-risk list (anticoagulants, insulin, opioids, digoxin, tramadol)",v3,numeric,0.0
+m3_n_names,medications,distinct normalised drug names,v3,numeric,0.0
+m3_drug_acetaminophen,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_albuterol,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_amlodipine,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_apixaban,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_aspirin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_ativan,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_atorvastatin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_azithromycin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_ceftriaxone,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_clopidogrel,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_eliquis,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_enoxaparin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_furosemide,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_glipizide,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_glucophage,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_heparin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_humalog,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_insulin_glargine,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_insulin_lispro,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lantus,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lasix,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_levothyroxine,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lipitor,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lisinopril,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lopressor,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_lorazepam,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_losartan,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_metformin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_methylprednisolone,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_metoprolol,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_morphine,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_multivitamin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_norvasc,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_omeprazole,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_ondansetron,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_oxycodone,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_piperacillin_tazobactam,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_plavix,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_potassium_chloride,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_prednisone,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_prilosec,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_quetiapine,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_sertraline,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_tramadol,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_tylenol,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_vancomycin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_ventolin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_warfarin,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_zestril,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_drug_zoloft,medications,1 if the stay has this normalized drug; vocabulary selected from training encounters,v3,numeric,0.0
+m3_n_cont_names,medications,distinct drug names continued at discharge,v3,numeric,0.0
+p3_first_day,procedures + index_encounters,days from admission to the first procedure,v3,numeric,82.9
+p3_last_day,procedures + index_encounters,days from admission to the last procedure,v3,numeric,82.9
+p3_last_days_before_dc,procedures + index_encounters,days between the last procedure and discharge,v3,numeric,82.9
+p3_any_last48h,procedures + index_encounters,1 if a procedure happened within 2 days of discharge,v3,numeric,0.0
+p3_distinct_codes,procedures,number of distinct procedure codes (CPT and CPT-4 treated as one system),v3,numeric,82.9
+t3_last_in_hrs_before_dc,unit_transfers + index_encounters,hours between the last unit entry and discharge,v3,numeric,0.0
+t3_last_unit_hours,unit_transfers,hours spent in the last unit,v3,numeric,0.0
+t3_n_moves_last24,unit_transfers + index_encounters,unit entries within the last 24 h,v3,numeric,0.0
+t3_hrs_since_icu_out,unit_transfers + index_encounters,hours between leaving the ICU and discharge (missing if no ICU),v3,numeric,94.9
+t3_icu_last24,unit_transfers + index_encounters,1 if the patient left an ICU within 24 h of discharge,v3,numeric,0.0
+u3_same_90d,prior_utilization + index_encounters,number of prior visits in the last 90 days at the same hospital as the index stay,v3,numeric,0.0
+u3_same_365d,prior_utilization + index_encounters,number of prior visits in the last 365 days at the same hospital as the index stay,v3,numeric,0.0
+u3_same_all,prior_utilization + index_encounters,number of all prior visits at the same hospital as the index stay,v3,numeric,0.0
+u3_same_ip_all,prior_utilization + index_encounters,number of all prior inpatient visits at the same hospital as the index stay,v3,numeric,0.0
+u3_diff_90d,prior_utilization + index_encounters,number of prior visits in the last 90 days at other hospitals,v3,numeric,0.0
+u3_diff_365d,prior_utilization + index_encounters,number of prior visits in the last 365 days at other hospitals,v3,numeric,0.0
+u3_diff_all,prior_utilization + index_encounters,number of all prior visits at other hospitals,v3,numeric,0.0
+u3_diff_ip_all,prior_utilization + index_encounters,number of all prior inpatient visits at other hospitals,v3,numeric,0.0
+u3_same_frac,prior_utilization + index_encounters,share of all prior visits that were at the same hospital,v3,numeric,0.5
+te_hospital_id,train.csv labels + hospital_id,smoothed (m=25 in best run) mean readmission rate of hospital; out-of-fold within each training fold,v4 (model time),numeric,0.0
+te_attending_id,train.csv labels + attending_id,smoothed (m=25 in best run) mean readmission rate of attending; out-of-fold within each training fold,v4 (model time),numeric,0.0
+te_dx_primary3,train.csv labels + dx_primary3,smoothed (m=25 in best run) mean readmission rate of primary diagnosis; out-of-fold within each training fold,v4 (model time),numeric,0.0
+te_proc_first,train.csv labels + proc_first,smoothed (m=25 in best run) mean readmission rate of first procedure code; out-of-fold within each training fold,v4 (model time),numeric,0.0

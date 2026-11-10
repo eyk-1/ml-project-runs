@@ -34,7 +34,6 @@ All tables are used. Many-row tables are aggregated to one row per `encounter_id
 
 Add a row after every Kaggle submission. Full detail (including CV scores) lives in `experiments/results.csv`.
 
-<<<<<<< HEAD
 | ID | Model | Key params | Public LB | Private LB | Selected for final |
 |---|---|---|---|---|---|
 | v1 | LightGBM, 3-seed avg | lr 0.03, 15 leaves, 290 rounds | **0.74326** | **0.75402** | - |
@@ -49,22 +48,6 @@ Add a row after every Kaggle submission. Full detail (including CV scores) lives
 | v10 | Rank blend: corrected LightGBM (5-seed final fit) + corrected EBM | weights 0.65 / 0.35; CV 0.7526 | **0.74752** | **0.75657** | **Yes** |
 | v11 | Rank blend: corrected v9 blend + boosted-stump GAM | GAM weight 0.325; CV 0.752794; holdout 0.741811 | **0.74714** | **0.75624** | - |
 | v12 | Rank blend: corrected v9 + LightGBM with positive-class weight 0.75 | 17.5% added rank weight; CV 0.752600; holdout 0.741773 | **0.74728** | **0.75601** | **Yes** |
-=======
-| ID | Model | Key params | Public LB |
-|---|---|---|---|
-| v1 | LightGBM, 3-seed avg | lr 0.03, 15 leaves, 290 rounds | **0.74326** |
-| v2 | LightGBM regularised + v2 features + target encoding | lr 0.04, 4 leaves, 700 rounds | **0.74589** |
-| v3 | CatBoost, 2-seed avg, native categoricals | depth 5, lr 0.06, 445 rounds | **0.74337** |
-| v4 | Rank blend: 0.8 LightGBM (v2) + 0.2 Logistic Regression | LR C = 0.02 | **0.74682** |
-| v5 | XGBoost, 3-seed avg, target encoding | eta 0.04, depth 3, 363 rounds | **0.74397** |
-| v6 | Rank blend: 0.4 LightGBM (v2 features) + 0.4 LightGBM (v3 features) + 0.2 Logistic Regression | weights from OOF grid search | **0.74685** |
-| v7 | Kaggle notebook: rank blend 0.4 LightGBM (v2 features, 3 leaves) + 0.4 LightGBM (v3 features, 3 leaves) + 0.2 Logistic Regression | settings chosen by CV inside the notebook | **0.74679** |
-| v8 | Rank blend: LightGBM v2 + v3 + spline logistic regression + EBM | weights 0.3 / 0.3 / 0.2 / 0.2 | **0.74695** |
-| v9 | Rank blend: corrected LightGBM + corrected EBM (clean fold-local pipeline, features v4) | weights 0.65 / 0.35; CV 0.7526 | **0.74755** |
-| v10 | Rank blend: corrected LightGBM (5-seed final fit) + corrected EBM | weights 0.65 / 0.35; CV 0.7526 | **0.74752** |
-| v11 | Rank blend: corrected v9 blend + boosted-stump GAM | GAM weight 0.325; CV 0.752794; holdout 0.741811 | **0.74714** |
-| v12 | Rank blend: corrected v9 + LightGBM with positive-class weight 0.75 | 17.5% added rank weight; CV 0.752600; holdout 0.741773 | **0.74728** |
->>>>>>> 728fda5350b26d0e54324cd38932bfb8573a6ed2
 
 ## Ran but not submitted (CV only)
 
